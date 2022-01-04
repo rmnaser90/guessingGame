@@ -49,7 +49,8 @@ const Canvas = () => {
   return (
       <canvas
         ref={canvasRef}
-        onClick={stgit artDrawing}
+        
+        onMouseDown={startDrawing}
         onMouseUp={stopDrawing}
         onMouseMove={draw}
       />
