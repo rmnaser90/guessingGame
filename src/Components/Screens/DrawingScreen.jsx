@@ -1,11 +1,11 @@
 import React from "react";
-import Canvas from "../SubComponents/Canvas";
+import CanvasDrawComponent from "../SubComponents/CanvasDrawComponent";
 
 const DrawingScreen = () => {
   return (
     <div>
       <h1>drawing screen</h1>
-      <Canvas />
+       <CanvasDrawComponent/>
     </div>
   );
 };
