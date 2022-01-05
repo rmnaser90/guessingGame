@@ -13,7 +13,6 @@ const GameSchema = new Schema({
     finishedGuessing: Boolean,
     canvas: String,
     score: Number,
-    winner: { type: Schema.Types.ObjectId, ref: 'player' },
     status: String,
 })
 

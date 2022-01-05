@@ -8,10 +8,7 @@ const saved = JSON.stringify({"lines":[{"points":[{"x":126.01552759426575,"y":27
 return <div>
         <CanvasDraw
     ref={canvasRef}
-    disabled={isWaiting}
-    hideGrid = {isWaiting}
-    loadTimeOffset={20}
-    saveData={saved.toString()}
+   
     />
     </div>
 }

@@ -3,7 +3,7 @@ import DrawingScreen from "./Components/Screens/DrawingScreen";
 
 function App() {
   return <div>
-<h1>welcome</h1>
+<h1>welcome sir</h1>
   <DrawingScreen/>
   </div>
 }
