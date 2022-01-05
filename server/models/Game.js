@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 const GameSchema = new Schema({
     pin: Number,
-    public: Boolean,
+    isPublic: Boolean,
     player1: { type: Schema.Types.ObjectId, ref: 'Player' },
     player2: { type: Schema.Types.ObjectId, ref: 'Player' },
     guessingPlayer: { type: Schema.Types.ObjectId, ref: 'Player' },

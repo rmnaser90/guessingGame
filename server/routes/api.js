@@ -34,7 +34,7 @@ router.post("/signIn", async function (req, res) {
 });
 
 router.post("/newGame", async function (req, res) {
-  const { id, public } = req.body;
+  const { id, public: isPublic } = req.body;
   const player = await Player.findById(id);
   if (player.inGame) {
     res.send({ error: true, msg: "Player is already in game" });
@@ -42,7 +42,7 @@ router.post("/newGame", async function (req, res) {
   }
   const pin = Math.floor(Math.random() * 1000000);
   const game = new Game({
-    public,
+    isPublic,
     pin,
     player1: id,
     drawingPlayer: id,
@@ -53,7 +53,7 @@ router.post("/newGame", async function (req, res) {
   });
   player.game = game;
   player.inGame = true;
-  player.save();
+  await player.save();
   const dbRes = await game.save();
   const gameState = {
     pin: dbRes.pin,
@@ -216,6 +216,8 @@ router.post("/gameState", async function (req, res) {
   const game = await Game.findById(gameId)
     .populate("player1 player2 currentWord")
     .exec();
+  const player1 = game.player1.name;
+  const player2 = game.player2?game.player2.name:"waiting for player"
   const player = await Player.findById(id);
   const isDrawing =
     game.drawingPlayer == id &&
@@ -261,7 +263,7 @@ router.post("/gameState", async function (req, res) {
     word: isDrawing ? game.currentWord : "",
     canvas: game.canvas,
     score: game.score,
-    team: { player1: game.player1.name, player2: game.player2.name },
+    team: { player1,player2 },
   };
 
   res.send({ gameState });

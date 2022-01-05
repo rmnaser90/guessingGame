@@ -1,11 +1,20 @@
-import React from "react";
-import DrawingScreen from "./Components/Screens/DrawingScreen";
+import React, { useEffect } from "react";
+import Navigator from "./Components/Navigator";
+import { Provider } from "mobx-react";
+import GameStore from "./stores/GameStore";
 
+const gameStore = new GameStore();
+const stores = { gameStore };
 function App() {
-  return <div>
-<h1>welcome sir</h1>
-  <DrawingScreen/>
-  </div>
+const {signIn} = gameStore
+  useEffect(() => {
+    signIn()
+  }, [])
+  return (
+    <Provider {...stores}>
+      <Navigator />
+    </Provider>
+  );
 }
 
 export default App;
