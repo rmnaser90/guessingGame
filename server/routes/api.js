@@ -203,11 +203,14 @@ router.put("/gameOver", async function (req, res) {
   const player1 = await Player.findById(game.player1);
   const player2 = await Player.findById(game.player2);
   player1.inGame = false;
+if(player2!=null){
   player2.inGame = false;
+  await player2.save();
+}
+
   game.status = "finished";
   await game.save();
   await player1.save();
-  await player2.save();
   res.send({ error: true, msg: "Score: " + game.score });
 });
 
