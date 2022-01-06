@@ -3,7 +3,7 @@ const io = require('socket.io-client')
 
 class ApiManager {
   constructor() {
-    this.PATH = "http://localhost:3008/";
+    this.PATH = "/";
     this.socket = io.connect('/')
   }
   newPlayer = async (userName) => {
