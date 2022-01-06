@@ -1,7 +1,10 @@
 const axios = require("axios");
+const io = require('socket.io-client')
+
 class ApiManager {
   constructor() {
     this.PATH = "http://localhost:3008/";
+    this.socket = io.connect('/')
   }
   newPlayer = async (userName) => {
     const res = await axios.post(this.PATH + "newPlayer", { name: userName });
@@ -20,6 +23,7 @@ class ApiManager {
   };
   joinGame = async ({ id, pin }) => {
     const res = await axios.put(this.PATH + "joinGame", { id, pin });
+    this.socket.emit('update')
     return res.data;
   };
   pickWord = async ({ id, gameId, level }) => {
@@ -32,15 +36,22 @@ class ApiManager {
       gameId,
       canvas,
     });
+    this.socket.emit('update')
     return res.data;
   };
 
   guessWord = async ({ id, gameId, word }) => {
     const res = await axios.put(this.PATH + "guessWord", { id, gameId, word });
+    if (!res.data.error) {
+      alert("Correct!!")
+      this.socket.emit('update')
+    }
+ 
     return res.data;
   };
   gameOver = async ({ id, gameId }) => {
     const res = await axios.put(this.PATH + "gameOver", { id, gameId });
+    this.socket.emit('update')
     return res.data;
   };
   gameState = async ({ id, gameId }) => {

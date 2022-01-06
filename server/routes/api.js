@@ -48,6 +48,7 @@ router.post("/newGame", async function (req, res) {
     drawingPlayer: id,
     score: 0,
     status: "waiting",
+    currentWord:{ word: "", level: "" },
     finishedDrawing: false,
     finishedGuessing: true,
   });
@@ -74,7 +75,7 @@ router.put("/joinGame", async function (req, res) {
     return;
   }
   const game = await Game.findOne({ pin, status: "waiting" })
-    .populate("player2")
+    .populate("player2 player1")
     .exec();
   if (game == null) {
     res.send({ error: true, msg: "wrong pin" });
@@ -93,7 +94,7 @@ router.put("/joinGame", async function (req, res) {
     gameId: gameRes.id,
     page: "canvas",
     isDrawing: false,
-    isGuessing: true,
+    isGuessing: false,
     finishedDrawing: false,
     team: { player1: game.player1.name, player2: player.name },
   };
@@ -136,14 +137,14 @@ router.put("/pickWord", async function (req, res) {
 router.put("/sendDrawing", async function (req, res) {
   const { id, gameId, canvas } = req.body;
   const game = await Game.findById(gameId)
-    .populate("player1 player2 currentWord")
+    .populate("player1 player2")
     .exec();
   if (game.drawingPlayer != id && !game.finishedGuessing) {
     res.send({ error: true, msg: "it's not your turn to draw" });
     return;
   }
   const isDrawing = false;
-  const isGuessing = true;
+  const isGuessing = false;
   game.finishedDrawing = true;
   game.finishedGuessing = false;
   game.canvas = canvas;
@@ -166,8 +167,8 @@ router.put("/sendDrawing", async function (req, res) {
 router.put("/guessWord", async function (req, res) {
   const { id, gameId, word } = req.body;
   const game = await Game.findById(gameId).populate(
-    "player1 player2 currentWord"
-  );
+    "player1 player2"
+  ).exec()
   const { level } = game.currentWord;
   if (game.guessingPlayer != id && !game.finishedDrawing) {
     res.send({ error: true, msg: "not your turn to guess" });
@@ -183,7 +184,7 @@ router.put("/guessWord", async function (req, res) {
   game.guessingPlayer = game.drawingPlayer;
   game.drawingPlayer = id;
   game.score += points;
-  game.canvas = "";
+  game.currentWord = { word: "", level: "" }
   game.finishedDrawing = false;
   game.finishedGuessing = true;
   await game.save();
@@ -214,25 +215,27 @@ router.put("/gameOver", async function (req, res) {
 router.post("/gameState", async function (req, res) {
   const { id, gameId } = req.body;
   const game = await Game.findById(gameId)
-    .populate("player1 player2 currentWord")
+    .populate("player1 player2")
     .exec();
   const player1 = game.player1.name;
-  const player2 = game.player2?game.player2.name:"waiting for player"
+  const player2 = game.player2 ? game.player2.name : "waiting for player"
   const player = await Player.findById(id);
   const isDrawing =
     game.drawingPlayer == id &&
-    game.status == "playing" &&
-    game.finishedGuessing
-      ? true
-      : false;
-  const isGuessing =
-    game.guessingPlayer == id &&
-    game.status == "playing" &&
-    game.finishedDrawing
+      game.status == "playing" &&
+      game.finishedGuessing &&
+      game.currentWord.level !== ""
       ? true
       : false;
 
-  const isPicking = !isDrawing && !isGuessing;
+  const isGuessing =
+    game.guessingPlayer == id &&
+      game.status == "playing" &&
+      game.finishedDrawing
+      ? true
+      : false;
+
+  const isPicking = game.drawingPlayer == id && !isDrawing && !isGuessing && !game.finishedDrawing
   let page = "";
   switch (true) {
     case game.status == "waiting":
@@ -249,11 +252,11 @@ router.post("/gameState", async function (req, res) {
       break;
     case isPicking:
       page = "pickWord";
+      break;
     default:
       page = "canvas";
       break;
   }
-
   const gameState = {
     gameId: game.id,
     pin: game.pin,
@@ -263,7 +266,7 @@ router.post("/gameState", async function (req, res) {
     word: isDrawing ? game.currentWord : "",
     canvas: game.canvas,
     score: game.score,
-    team: { player1,player2 },
+    team: { player1, player2 },
   };
 
   res.send({ gameState });

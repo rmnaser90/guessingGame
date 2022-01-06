@@ -8,7 +8,7 @@ const GameSchema = new Schema({
     player2: { type: Schema.Types.ObjectId, ref: 'Player' },
     guessingPlayer: { type: Schema.Types.ObjectId, ref: 'Player' },
     drawingPlayer: { type: Schema.Types.ObjectId, ref: 'Player' },
-    currentWord: { type: Schema.Types.ObjectId, ref: 'Word' },
+    currentWord: { },
     finishedDrawing: Boolean,
     finishedGuessing: Boolean,
     canvas: String,
