@@ -21,12 +21,7 @@ const DrawingScreen = inject("gameStore")(
       await guessWord();
       handleInput("word", "");
     };
-    const sendDrawingBtn = async () => {
-      await sendDrawing();
-      setTimeout(() => {
-        canvasRef.current.eraseAll();
-      }, 5000);
-    };
+  
 
     return (
       <div className="screen drawingScreen">
@@ -57,7 +52,7 @@ const DrawingScreen = inject("gameStore")(
         {isDrawing ? (
           <div className="canvasSubContainer">
             <div className="currentWord">{word.word}</div>
-            <div onClick={sendDrawingBtn}className="checkBtn">✔</div>
+            <div onClick={sendDrawing}className="checkBtn">✔</div>
           </div>
         ) : null}
 
