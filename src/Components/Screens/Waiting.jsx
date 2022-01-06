@@ -3,11 +3,19 @@ import { inject, observer } from "mobx-react";
 
 const Waiting = inject("gameStore")(
   observer(({ gameStore }) => {
-    const{pin} = gameStore.gameState
+    const { pin } = gameStore.gameState;
     return (
-      <div>
-        <h1>waiting</h1>
-    <h2>share this PIN with your friend: {pin}</h2>
+      <div className="screen waitingScreen">
+        <div className="header">
+          <h1 className="title larger yellow">
+            Waiting <br />
+            <span className="sec"> for Freind</span>{" "}
+          </h1>
+        </div>
+        <div className="subContainer">
+          <h2 className="waitingText">Share this PIN with your friend: </h2>
+          <h1 className="pinNumber">{pin}</h1>
+        </div>
       </div>
     );
   })

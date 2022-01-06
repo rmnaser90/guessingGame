@@ -6,19 +6,18 @@ const NewPlayer = inject("gameStore")(
     const { inputs, newPlayer, handleInput } = gameStore;
     const { newPlayerName } = inputs;
 
-    const handleNameInput = function ({target}) {
-        handleInput('newPlayerName',target.value)
-    }
+    const handleNameInput = function ({ target }) {
+      handleInput("newPlayerName", target.value);
+    };
     return (
-      <div className="screen">
-        <h1>Guessing Game</h1>
-        <h2>please enter your Name</h2>
-        <input
-          type="text"
-          value={newPlayerName}
-          onChange={handleNameInput}
-        />
-        <button onClick={newPlayer}>Start</button>
+      <div className="screen newPlayerScreen">
+        <div className="header">
+          <h1 className="title">Guessing <br/><span>Game</span> </h1>
+        </div>
+        <div className="newPlayerForm">
+          <input className="newPlayerInput" type="text" placeholder="Enter Your Name" value={newPlayerName} onChange={handleNameInput} />
+          <div onClick={newPlayer} className="btn ">Let's Draw & Guess!</div>
+        </div>
       </div>
     );
   })

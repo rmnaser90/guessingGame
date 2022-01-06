@@ -1,38 +1,263 @@
-.App {
+body {
+  margin: 0;
+}
+
+#root {
+  width: 100vw;
+  height: 80vh;
+}
+.screen {
+  width: 100%;
+  height: 100%;
+}
+
+.logOutBtn {
+  position: fixed;
+  right: 15px;
+  top: 15px;
+  font-size: 150%;
+}
+.logOutIcon{
+  width: 50px;
+  height: 50px;
+}
+.newPlayerScreen {
+  display: grid;
+  grid-template-rows: 1fr 1.5fr;
+  align-items: center;
+  justify-items: center;
+}
+.header {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+}
+.title {
+  margin: 0;
+  font-size: 250%;
+  text-align: center;
+  font-weight: 900;
+  color: crimson;
+}
+.title span {
+  color: #ffb703;
+}
+.newPlayerForm {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-items: center;
+}
+.newPlayerInput {
+  font-size: 250%;
+  width: 80%;
+  height: 70px;
   text-align: center;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+.btn {
+  width: 75%;
+  height: 70px;
+  text-align: center;
+  background-color: crimson;
+  font-size: x-large;
+  font-weight: 900;
+  color: aliceblue;
+  display: grid;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  justify-items: center;
+  transition: 0.4s;
+  cursor: pointer;
+}
+.btn:hover {
+  font-size: xx-large;
+  width: 90%;
+}
+.welcomScreen {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+}
+.btnContainer {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  height: 70%;
+  width: 100%;
+  align-items: center;
+  justify-items: center;
+}
+.joinBtn {
+  background-color: #ffb703;
+}
+.pinInputContainer {
+  position: absolute;
+  width: 100vw;
+  height: 90vh;
+  background-color: #ffb703;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+}
+.subContainer {
+  width: 90%;
+  height: 80%;
+  display: grid;
+  grid-template-rows: 1fr 4fr;
+  align-items: center;
+  justify-items: center;
+}
+.joinFrom {
+  display: grid;
+  width: 100%;
+  height: 60%;
+  align-items: center;
+  justify-items: center;
+}
+.closebtn {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-weight: 900;
+  font-size: 200%;
+  transition: 0.3s;
+}
+.closebtn:hover {
+  font-size: 210%;
+}
+
+.title .sec {
+  color: aliceblue;
+  font-size: 65%;
+  position: relative;
+  left: 50px;
+  bottom: 15px;
+}
+.larger {
+  margin-right: 20px;
+  font-size: 390%;
+}
+.waitingScreen {
+  width: 100%;
+  height: 90vh;
+  display: grid;
+  grid-template-rows: 2fr 3fr;
+  align-items: center;
+  justify-items: center;
+  background-color: crimson;
+}
+.yellow {
+  color: #ffb703;
+}
+#crimson {
+  color: crimson;
+}
+.waitingScreen .subContainer {
+}
+.waitingText {
+  color: #212529;
+  font-weight: 900;
+}
+.pinNumber {
+  color: #212529;
+  font-size: 390%;
+  font-weight: 900;
+  position: relative;
+  bottom: 40px;
+}
+.pickWordScreen {
+  padding-top: 40px;
+  display: grid;
+  grid-template-rows: 1fr 1.5fr;
+  align-items: center;
+  justify-items: center;
+}
+.easy {
+  background-color: darkgrey;
+}
+.medium {
+  background-color: #ffb703;
+}
+.drawingScreen {
+  display: grid;
+  grid-template-rows: 4fr 1fr;
+}
+.appBar {
+  width: 100%;
+  height: 10vh;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  justify-items: center;
+  text-align: center;
+  background-color: #ffb703;
+  font-weight: 900;
+  font-size: 130%;
+}
+.playerName{
+  color: crimson;
+}
+.playerName span{
   color: white;
+  font-size: 140%;
 }
-
-.App-link {
-  color: #61dafb;
+.score{
+  width: 80%;
+  height: 80%;
+  background-color: white;
+  border-radius: 50px;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  font-size: 70%;
 }
+.score span {
+  font-size: 200%;
+}
+.canvasSubContainer {
+  width: 100%;
+  height: 10vh;
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  align-items: center;
+  justify-items: center;
+}
+.guessInput {
+  width: 90%;
+  height: 70%;
+  font-size: 150%;
+  border-radius: 10px;
+  text-align: center;
+}
+.quitBtn {
+  margin: auto;
+  width: 98%;
+  border-radius: 10px;
+  height: 6.5vh;
+  cursor: pointer;
+}
+.checkBtn {
+  width: 95%;
+  height: 95%;
+  border-radius: 10px;
+  text-align: center;
+  background-color: #ffb703;
+  font-size: 300%;
+  font-weight: 900;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  transition: 0.4s;
+  cursor: pointer;
+}
+.currentWord{
+  width: 90%;
+  height: 75%;
+  font-size: 320%;
+  font-weight: 900;
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  text-align: center;
 }

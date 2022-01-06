@@ -6,8 +6,14 @@ class GameStore {
   constructor() {
     this.player = { _id: "", inGame: false, game: "" };
     this.gameState = { page: "newPlayer" };
-    this.inputs = { newPlayerName: "", canvasInput: "", level: "", word: "", pin: '' };
-    this.socket = apiManager.socket
+    this.inputs = {
+      newPlayerName: "",
+      canvasInput: "",
+      level: "",
+      word: "",
+      pin: "",
+    };
+    this.socket = apiManager.socket;
     makeAutoObservable(this, {
       player: observable,
       gameState: observable,
@@ -18,7 +24,8 @@ class GameStore {
       joinGame: action,
       pickWord: action,
       sendDrawing: action,
-      guessWord:action
+      guessWord: action,
+      quitgame:action
     });
   }
   handleInput = (property, value) => {
@@ -63,91 +70,102 @@ class GameStore {
     console.log(gameId);
     if (inGame) {
       const gameStateRes = await apiManager.gameState({ id: _id, gameId });
-      const { gameState } = gameStateRes
+      const { gameState } = gameStateRes;
       runInAction(() => {
         console.log(gameState);
         this.gameState = gameState;
       });
     } else {
       runInAction(() => {
-    const storedPlayer = this.getPlayerFromLocalStorage();
-        this.gameState.page = storedPlayer!==null?"welcome":'newPlayer';
+        const storedPlayer = this.getPlayerFromLocalStorage();
+        this.gameState.page = storedPlayer !== null ? "welcome" : "newPlayer";
       });
     }
   };
   newGame = async () => {
     const { _id } = this.player;
     const gameStateRes = await apiManager.newGame({ id: _id, isPublic: true });
-    const { gameState } = gameStateRes
+    const { gameState } = gameStateRes;
 
-    const updatedPlayer = await apiManager.signIn(_id)
+    const updatedPlayer = await apiManager.signIn(_id);
     if (gameState.error) {
-      alert(gameState.msg)
-      return
+      alert(gameState.msg);
+      return;
     }
     runInAction(() => {
-      this.player = updatedPlayer
-      this.gameState = gameState
-    })
+      this.player = updatedPlayer;
+      this.gameState = gameState;
+    });
   };
   joinGame = async () => {
-    const { _id: id } = this.player
-    const { pin } = this.inputs
-    const gameStateRes = await apiManager.joinGame({ id, pin })
-    const { error, msg, gameState } = gameStateRes
-    alert(msg)
+    const { _id: id } = this.player;
+    const { pin } = this.inputs;
+    const gameStateRes = await apiManager.joinGame({ id, pin });
+    const { error, msg, gameState } = gameStateRes;
+    alert(msg);
     if (error) {
-      return
+      return;
     }
-    const updatedPlayer = await apiManager.signIn(id)
+    const updatedPlayer = await apiManager.signIn(id);
     runInAction(() => {
-      this.gameState = gameState
-      this.player = updatedPlayer
-    })
-  }
+      this.gameState = gameState;
+      this.player = updatedPlayer;
+    });
+  };
   pickWord = async (level) => {
-    const { _id: id } = this.player
-    const { gameId } = this.gameState
-    const gameStateRes = await apiManager.pickWord({ id, gameId, level })
-    const { error, msg, gameState } = gameStateRes
+    const { _id: id } = this.player;
+    const { gameId } = this.gameState;
+    const gameStateRes = await apiManager.pickWord({ id, gameId, level });
+    const { error, msg, gameState } = gameStateRes;
     if (error) {
-      alert(msg)
-      return
+      alert(msg);
+      return;
     }
     runInAction(() => {
-      this.gameState = gameState
-    })
-
-  }
+      this.gameState = gameState;
+    });
+  };
   sendDrawing = async () => {
-    const { canvasInput: canvas } = this.inputs
-    const { _id: id } = this.player
-    const { gameId } = this.gameState
+    const { canvasInput: canvas } = this.inputs;
+    const { _id: id } = this.player;
+    const { gameId } = this.gameState;
 
-    const gameStateRes = await apiManager.sendDrawing({ id, gameId, canvas })
-    const { error, msg, gameState } = gameStateRes
+    const gameStateRes = await apiManager.sendDrawing({ id, gameId, canvas });
+    const { error, msg, gameState } = gameStateRes;
     if (error) {
-      alert(msg)
-      return
+      alert(msg);
+      return;
     }
     runInAction(() => {
-      this.gameState = gameState
-    })
-  }
+      this.gameState = gameState;
+    });
+  };
   guessWord = async () => {
-    const { word } = this.inputs
-    const { _id: id } = this.player
-    const { gameId } = this.gameState
+    const { word } = this.inputs;
+    const { _id: id } = this.player;
+    const { gameId } = this.gameState;
 
-    const gameStateRes = await apiManager.guessWord({ id, gameId, word })
-    const { error, msg, gameState } = gameStateRes
+    const gameStateRes = await apiManager.guessWord({ id, gameId, word });
+    const { error, msg, gameState } = gameStateRes;
     if (error) {
-      alert(msg)
-      return
+      alert(msg);
+      return;
     }
     runInAction(() => {
-      this.gameState = gameState
-    })
-  }
+      this.gameState = gameState;
+    });
+  };
+  quitGame = async () => {
+    const { _id: id } = this.player;
+    const { gameId } = this.gameState;
+    const gameStateRes = await apiManager.gameOver({ id, gameId });
+    const { error, msg, gameState } = gameStateRes;
+    if (error) {
+      alert(msg);
+      this.getGameState()
+      return;
+    }
+ 
+  };
 }
 export default GameStore;
