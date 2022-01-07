@@ -197,42 +197,42 @@ router.put("/guessWord", async function (req, res) {
   };
   res.send({ gameState });
 });
+
 router.put("/gameOver", async function (req, res) {
   const { id, gameId } = req.body;
   const game = await Game.findById(gameId);
   const player1 = await Player.findById(game.player1);
   const player2 = await Player.findById(game.player2);
   player1.inGame = false;
-if(player2!=null){
-  player2.inGame = false;
-  await player2.save();
-}
-
+  if (player2 != null) {
+    player2.inGame = false;
+    await player2.save();
+  }
   game.status = "finished";
   await game.save();
   await player1.save();
-
   res.send({ error: true, msg: "Score: " + game.score });
 });
 
 router.post("/gameState", async function (req, res) {
-  const { id, gameId } = req.body;
+  const { id } = req.body;
+  const player = await Player.findById(id);
+  const { gameId } = player.Game
   const game = await Game.findById(gameId).populate("player1 player2").exec();
   const player1 = game.player1.name;
   const player2 = game.player2 ? game.player2.name : "waiting for player";
-  const player = await Player.findById(id);
   const isDrawing =
     game.drawingPlayer == id &&
-    game.status == "playing" &&
-    game.finishedGuessing &&
-    game.currentWord.level !== ""
+      game.status == "playing" &&
+      game.finishedGuessing &&
+      game.currentWord.level !== ""
       ? true
       : false;
 
   const isGuessing =
     game.guessingPlayer == id &&
-    game.status == "playing" &&
-    game.finishedDrawing
+      game.status == "playing" &&
+      game.finishedDrawing
       ? true
       : false;
 

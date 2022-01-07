@@ -102,6 +102,7 @@ class GameStore {
     const { pin } = this.inputs;
     const gameStateRes = await apiManager.joinGame({ id, pin });
     const { error, msg, gameState } = gameStateRes;
+    
     if (error) {
       alert(msg);
       return;
