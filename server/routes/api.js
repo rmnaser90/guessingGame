@@ -211,6 +211,7 @@ if(player2!=null){
   game.status = "finished";
   await game.save();
   await player1.save();
+
   res.send({ error: true, msg: "Score: " + game.score });
 });
 
@@ -247,12 +248,6 @@ router.post("/gameState", async function (req, res) {
       break;
     case !player.inGame:
       page = "welcome";
-      break;
-
-    case game.status == "finished" && player.inGame:
-      page = "score";
-      player.inGame = false;
-      await player.save();
       break;
     case isPicking:
       page = "pickWord";

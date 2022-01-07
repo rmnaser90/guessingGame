@@ -25,7 +25,7 @@ class GameStore {
       pickWord: action,
       sendDrawing: action,
       guessWord: action,
-      quitgame:action
+      quitgame: action
     });
   }
   handleInput = (property, value) => {
@@ -158,14 +158,8 @@ class GameStore {
   quitGame = async () => {
     const { _id: id } = this.player;
     const { gameId } = this.gameState;
-    const gameStateRes = await apiManager.gameOver({ id, gameId });
-    const { error, msg, gameState } = gameStateRes;
-    if (error) {
-      alert(msg);
-      this.getGameState()
-      return;
-    }
- 
+    await apiManager.gameOver({ id, gameId });
+
   };
 }
 export default GameStore;

@@ -49,15 +49,18 @@ class ApiManager {
  
     return res.data;
   };
+  
   gameOver = async ({ id, gameId }) => {
     const res = await axios.put(this.PATH + "gameOver", { id, gameId });
     this.socket.emit('update')
     return res.data;
   };
+
   gameState = async ({ id, gameId }) => {
     const res = await axios.post(this.PATH + "gameState", { id, gameId });
     return res.data;
   };
+
 }
 
 export default ApiManager;

@@ -10,7 +10,7 @@ const Waiting = inject("gameStore")(
         <div className="header">
           <h1 className="title larger yellow">
             Waiting <br />
-            <span className="sec"> for Freind</span>{" "}
+            <span className="sec"> for Friend</span>{" "}
           </h1>
         </div>
         <div className="subContainer">
