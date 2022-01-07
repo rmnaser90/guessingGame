@@ -102,8 +102,8 @@ class GameStore {
     const { pin } = this.inputs;
     const gameStateRes = await apiManager.joinGame({ id, pin });
     const { error, msg, gameState } = gameStateRes;
-    alert(msg);
     if (error) {
+      alert(msg);
       return;
     }
     const updatedPlayer = await apiManager.signIn(id);
