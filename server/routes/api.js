@@ -217,7 +217,8 @@ router.put("/gameOver", async function (req, res) {
 router.post("/gameState", async function (req, res) {
   const { id } = req.body;
   const player = await Player.findById(id);
-  const gameId = player.Game
+  const gameId = player.game
+  console.log(gameId);
   const game = await Game.findById(gameId).populate("player1 player2").exec();
   const player1 = game.player1.name;
   const player2 = game.player2 ? game.player2.name : "waiting for player";
