@@ -245,7 +245,7 @@ body {
   border-radius: 10px;
   text-align: center;
   background-color: #ffb703;
-  font-size: 300%;
+  font-size: 250%;
   font-weight: 900;
   display: grid;
   align-items: center;
@@ -256,8 +256,14 @@ body {
 .currentWord{
   width: 90%;
   height: 75%;
-  font-size: 320%;
+  font-size: 7vmin;
   font-weight: 900;
-
+  text-align: center;
+}
+.waitForPlayer{
+  width: 90%;
+  height: 75%;
+  font-size: 5vmin;
+  font-weight: 900;
   text-align: center;
 }

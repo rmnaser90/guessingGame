@@ -21,14 +21,24 @@ const DrawingScreen = inject("gameStore")(
       await guessWord();
       handleInput("word", "");
     };
-  
+    const player1Name = team.player1.split(" ")[0];
+    const player2Name = team.player2.split(" ")[0];
 
     return (
       <div className="screen drawingScreen">
         <div className="appBar">
-          <div className="playerName">Player 1 <br/><span>{team.player1}</span> </div>
-          <div className="score">Score <br/><span>{score}</span></div>
-          <div className="playerName">Player 2 <br/><span>{team.player2}</span></div>
+          <div className="playerName">
+            Player 1 <br />
+            <span>{player1Name}</span>{" "}
+          </div>
+          <div className="score">
+            Score <br />
+            <span>{score}</span>
+          </div>
+          <div className="playerName">
+            Player 2 <br />
+            <span>{player2Name}</span>
+          </div>
         </div>
         {isDrawing ? (
           <CanvasDraw
@@ -36,6 +46,8 @@ const DrawingScreen = inject("gameStore")(
             onChange={handleCanvasChange}
             canvasHeight={window.innerHeight * 0.7}
             canvasWidth={window.innerWidth}
+            brushRadius={3}
+            lazyRadius={2}
           />
         ) : (
           <CanvasDraw
@@ -48,11 +60,16 @@ const DrawingScreen = inject("gameStore")(
             canvasWidth={window.innerWidth}
           />
         )}
+        {!isDrawing && !isGuessing ? (
+          <div className="waitForPlayer"> Wait for your Turn!! </div>
+        ) : null}
 
         {isDrawing ? (
           <div className="canvasSubContainer">
             <div className="currentWord">{word.word}</div>
-            <div onClick={sendDrawing}className="checkBtn">✔</div>
+            <div onClick={sendDrawing} className="checkBtn">
+              ✔
+            </div>
           </div>
         ) : null}
 
@@ -72,7 +89,7 @@ const DrawingScreen = inject("gameStore")(
         ) : null}
         <div className="btn quitBtn" onClick={quitGame}>
           Quit
-        </div> 
+        </div>
       </div>
     );
   })
